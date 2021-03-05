@@ -1,13 +1,4 @@
 require 'rails_helper'
-# User Story 2, Flight Show Page
-
-# As a visitor
-# When I visit a flight's show page
-# Then I see the flight's number, date, time, departure city, and arrival city
-# And I see the names of all adult passengers on the flight
-# And I see the average age of all adult passengers on the flight
-#
-# Note: an "adult passenger" is a passenger whose age is greater than or equal to 18
 
 RSpec.describe "Show Page" do
   before :each do
@@ -44,6 +35,17 @@ RSpec.describe "Show Page" do
         visit "/flights/#{@vacation.id}"
           within "#adult-average-age" do
             expect(page).to have_content(@vacation.adult_average_age)
+          end
+      end
+    end
+    describe "Next to each passengers name I see a link or button to remove that passenger from that flight" do
+      it "By Clicking the button I no longer see the passanger listed on the flights passangers" do
+        visit "/flights/#{@vacation.id}"
+          within "#adult-passangers" do
+            expect(page).to have_link("Remove Passanger")
+            click_on("#remove-#{@jack.id}")
+            expect(current_path).to eq("/flights/#{@vacation.id}")
+            expect(page).to_not have_content(@jack.name)
           end
       end
     end

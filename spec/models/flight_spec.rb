@@ -19,9 +19,8 @@ RSpec.describe Flight, type: :model do
         work1 = Flight.create!(number: "3456", date: "08/03/2020", departure_city: "Atlanta", arrival_city: "Los Angeles")
         vacation2= Flight.create!(number: "12234", date: "06/12/2021", departure_city: "Los Angeles", arrival_city: "London")
         work2 = Flight.create!(number: "3411", date: "08/03/2020", departure_city: "Miami", arrival_city: "Seattle")
-          # expect(Flight.flights_by_departure_city).to eq([work1, vacation1, vacation2, work2])
-          expect(Flight.flights_by_departure_city.first).to eq(work1)
-          expect(Flight.flights_by_departure_city.last).to eq(work2)
+        expect(Flight.flights_by_departure_city.first).to eq(work1)
+        expect(Flight.flights_by_departure_city.last).to eq(work2)
       end
     end
   end
@@ -30,7 +29,6 @@ RSpec.describe Flight, type: :model do
       it "returns all the passangers for given flight who are 18 years or older" do
         expect(@vacation.adult_passangers).to eq([@jack, @sam, @jordan])
         expect(@vacation.adult_passangers.any?).to_not eq([@steve])
-
       end
     end
     describe "#adult_average_age" do
