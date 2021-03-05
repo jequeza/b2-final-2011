@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :flights, only: [:index, :show]
 
   resources :flight_passangers, only: [:destroy]
+  resources :patients, only: [:index]
 end
