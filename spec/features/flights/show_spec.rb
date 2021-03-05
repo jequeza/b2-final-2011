@@ -42,8 +42,8 @@ RSpec.describe "Show Page" do
       it "By Clicking the button I no longer see the passanger listed on the flights passangers" do
         visit "/flights/#{@vacation.id}"
           within "#adult-passangers" do
-            expect(page).to have_link("Remove Passanger")
-            click_on("#remove-#{@jack.id}")
+            expect(page).to have_button("Remove #{@jack.name} From Flight")
+            click_on("Remove #{@jack.name} From Flight")
             expect(current_path).to eq("/flights/#{@vacation.id}")
             expect(page).to_not have_content(@jack.name)
           end
