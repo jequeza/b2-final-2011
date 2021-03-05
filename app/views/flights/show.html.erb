@@ -1,0 +1,20 @@
+<section id="flight-info">
+  <h1>Flight info: </h1>
+  <p>Number : <%= @flight.number %></p>
+  <p>Time : <%= @flight.created_at %></p>
+  <p>Date : <%= @flight.date %></p>
+  <p>Arrival : <%= @flight.arrival_city %></p>
+  <p>Departure : <%= @flight.departure_city %></p>
+</section>
+
+
+<section id="adult-passangers">
+    <h3>Aduld Passanger for this Flight: </h3>
+      <% @adult_passangers.each do |passanger| %>
+        <p><%= passanger.name %> <%= button_to "Remove #{passanger.name} From Flight", flight_passanger_path(passanger), method: :delete %> </p>
+      <% end %>
+</section>
+
+<section id="adult-average-age">
+  <h3>Adult Average Age: <%= @adult_average_age %></h3>
+</section>

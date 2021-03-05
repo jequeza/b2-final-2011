@@ -1,0 +1,8 @@
+<section id="all-flights">
+  <h1>Flights</h1>
+    <% @flights.each do |flight| %>
+      <p>Number: <%= flight.number %></p>
+      <p>Departs: <%= flight.departure_city %></p>
+      <p>Arrives: <%= flight.arrival_city %></p>
+    <% end %>
+</section>
