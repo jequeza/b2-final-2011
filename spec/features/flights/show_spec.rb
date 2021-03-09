@@ -8,6 +8,8 @@ RSpec.describe "Show Page" do
     @jordan = @vacation.passangers.create!(name: "Jordan Wilson", age: 21)
     @steve = @vacation.passangers.create!(name: "Steve Wilson", age: 16)
     @work = Flight.create!(number: "3456", date: "08/03/2020", departure_city: "Miami", arrival_city: "Los Angeles")
+    @morris = @work.passangers.create!(name: "Morris Sliwowski", age: 42)
+
   end
   describe "As a visitor" do
     describe "When I visit a flight's show page" do
@@ -29,12 +31,14 @@ RSpec.describe "Show Page" do
             expect(page).to have_content(@sam.name)
             expect(page).to have_content(@jordan.name)
             expect(page).to_not have_content(@steve.name)
+            expect(page).to_not have_content(@morris.name)
           end
       end
       it "I see the average age of all adult passengers on the flight" do
         visit "/flights/#{@vacation.id}"
           within "#adult-average-age" do
             expect(page).to have_content(@vacation.adult_average_age)
+            expect(page).to_not have_content(@work.adult_average_age)
           end
       end
     end
@@ -42,7 +46,21 @@ RSpec.describe "Show Page" do
       it "By Clicking the button I no longer see the passanger listed on the flights passangers" do
         visit "/flights/#{@vacation.id}"
           within "#adult-passangers" do
-            expect(page).to have_button("Remove #{@jack.name} From Flight")
+            expect(page).to have_button("Remove #{@jordan.name} From Flight")
+            expect(page).to_not have_button("Remove #{@morris.name} From Flight")
+            click_on("Remove #{@jordan.name} From Flight")
+            expect(current_path).to eq("/flights/#{@vacation.id}")
+            expect(page).to_not have_content(@jordan.name)
+          end
+      end
+      it "can delete another record from the same flight" do
+        visit "/flights/#{@vacation.id}"
+          within "#adult-passangers" do
+            expect(page).to have_button("Remove #{@sam.name} From Flight")
+            expect(page).to_not have_button("Remove #{@morris.name} From Flight")
+            click_on("Remove #{@sam.name} From Flight")
+            expect(current_path).to eq("/flights/#{@vacation.id}")
+            expect(page).to_not have_content(@sam.name)
             click_on("Remove #{@jack.name} From Flight")
             expect(current_path).to eq("/flights/#{@vacation.id}")
             expect(page).to_not have_content(@jack.name)
